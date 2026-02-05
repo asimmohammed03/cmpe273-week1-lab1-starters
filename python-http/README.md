@@ -71,3 +71,35 @@ Each service runs in its own terminal
 Service B uses a timeout when calling Service A
 
 Basic logging records service name, endpoint, status code, and latency
+
+**What happens on timeout?**
+
+Service B calls Service A using an HTTP client with a timeout (for example requests.get(..., timeout=1.0)). If Service A is slow or doesn’t respond within that time, the client raises a timeout exception. Service B catches it, logs an error (timeout/latency details), and returns HTTP 503 Service Unavailable to the caller. This prevents Service B from hanging forever.
+
+**What happens if Service A is down?**
+
+If Service A is stopped (Ctrl+C), there is no process listening on 127.0.0.1:8080. When Service B tries to call Service A, the HTTP request fails (connection refused or connect timeout). Service B catches the error, logs that Service A is unreachable, and returns HTTP 503 with a JSON error message. Service B itself stays running, showing independent failure.
+
+**What do your logs show, and how would you debug?**
+
+Each request logs basic request info:
+
+service name (service-a / service-b)
+
+endpoint (/health, /echo, /call-echo)
+
+status code (200, 503, etc.)
+
+latency (how long the request took)
+
+To debug:
+
+1.Reproduce the issue with curl.
+
+2.Check Service B logs to see whether it was a timeout vs connection failure.
+
+3.Confirm Service A is actually running by calling curl http://127.0.0.1:8080/health.
+
+4.If ports are wrong, verify listeners with netstat -ano | findstr :8080 and :8081.
+
+5.Use the latency and status logs to pinpoint whether the slowdown/failure is in Service A, the network call, or Service B’s handler.
