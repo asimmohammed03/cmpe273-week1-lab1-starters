@@ -24,8 +24,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
+<img width="1920" height="228" alt="Screenshot (867)" src="https://github.com/user-attachments/assets/a9de9339-389e-4962-836a-376e550fd990" />
+
 Service B runs on:
 http://127.0.0.1:8081
+<img width="1920" height="229" alt="Screenshot (868)" src="https://github.com/user-attachments/assets/092ba892-923d-4cdf-826f-7cc1dcb0270c" />
+
 Success proof
 
 With both services running, execute:
