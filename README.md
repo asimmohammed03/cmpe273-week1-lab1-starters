@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CMPE 273 – Week 1 Lab 1: Your First Distributed System (Starter)
 
 This starter provides two implementation tracks:
@@ -24,3 +25,6 @@ Minimum requirements:
    - how to run locally
    - success + failure proof (curl output or screenshot)
    - 1 short paragraph: “What makes this distributed?”
+=======
+# cmpe273-week1-lab1-starters
+>>>>>>> d2237e101757c9d8a6571308c7e722f31d637ccd
