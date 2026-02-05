@@ -1,30 +1,73 @@
-<<<<<<< HEAD
-# CMPE 273 – Week 1 Lab 1: Your First Distributed System (Starter)
+# Python HTTP Track
 
-This starter provides two implementation tracks:
-- `python-http/` (Flask + requests)
-- `go-http/` (net/http)
+## Run Service A
+```bash
+cd service-a
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+<img width="1920" height="239" alt="Screenshot (865)" src="https://github.com/user-attachments/assets/3c91e060-ecc6-4359-93dc-7323b4324d26" />
 
-Pick **one** track for Week 1.
+Service A runs on:http://127.0.0.1:8080
+Test Service A:curl http://127.0.0.1:8080/health
+curl "http://127.0.0.1:8080/echo?msg=hello"
+<img width="1920" height="239" alt="Screenshot (866)" src="https://github.com/user-attachments/assets/de0497d1-958d-44b8-8d65-bded27a4809b" />
 
-## Lab Goal
-Build **two services** that communicate over the network:
-- **Service A** (port 8080): `/health`, `/echo?msg=...`
-- **Service B** (port 8081): `/health`, `/call-echo?msg=...` calls Service A
 
-Minimum requirements:
-- Two independent processes
-- HTTP (or gRPC if you choose stretch)
-- Basic logging per request (service name, endpoint, status, latency)
-- Timeout handling in Service B
-- Demonstrate independent failure (stop A; B returns 503 and logs error)
+## Run Service B (new terminal)
+```bash
+cd service-b
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+<img width="1920" height="228" alt="Screenshot (867)" src="https://github.com/user-attachments/assets/a9de9339-389e-4962-836a-376e550fd990" />
 
-## Deliverables
-1. Repo link
-2. README updates:
-   - how to run locally
-   - success + failure proof (curl output or screenshot)
-   - 1 short paragraph: “What makes this distributed?”
-=======
-# cmpe273-week1-lab1-starters
->>>>>>> d2237e101757c9d8a6571308c7e722f31d637ccd
+Service B runs on:
+http://127.0.0.1:8081
+<img width="1920" height="229" alt="Screenshot (868)" src="https://github.com/user-attachments/assets/092ba892-923d-4cdf-826f-7cc1dcb0270c" />
+
+Success proof
+
+With both services running, execute:
+## Test
+```bash
+curl "http://127.0.0.1:8081/call-echo?msg=hello"
+```
+Expected output:
+{
+  "service_a": { "echo": "hello" },
+  "service_b": "ok"
+}
+<img width="1920" height="247" alt="Screenshot (869)" src="https://github.com/user-attachments/assets/c91b2331-cf91-4611-a0bf-fae970b2e2d6" />
+
+**Failure proof (independent failure)**
+
+Stop Service A using Ctrl + C
+Keep Service B running
+Run:curl -i "http://127.0.0.1:8081/call-echo?msg=hello"
+
+Expected result:
+
+HTTP 503 Service Unavailable
+
+Error message indicating Service A is unreachable
+
+Service B remains running and logs the error
+<img width="1920" height="536" alt="Screenshot (870)" src="https://github.com/user-attachments/assets/e3164f75-cd7f-478f-96b0-d1ebdfb51364" />
+
+
+****What makes this distributed?
+****
+This system is distributed because Service A and Service B run as independent processes on different ports and communicate over HTTP across a network boundary (localhost). Service B depends on Service A via a network call with a timeout, and when Service A is stopped, Service B continues running and returns HTTP 503 instead of crashing. This demonstrates independent failure handling and network-based communication, which are core properties of distributed systems.
+
+**Notes**
+
+Each service runs in its own terminal
+
+Service B uses a timeout when calling Service A
+
+Basic logging records service name, endpoint, status code, and latency
