@@ -42,6 +42,8 @@ Expected output:
   "service_a": { "echo": "hello" },
   "service_b": "ok"
 }
+<img width="1920" height="247" alt="Screenshot (869)" src="https://github.com/user-attachments/assets/c91b2331-cf91-4611-a0bf-fae970b2e2d6" />
+
 **Failure proof (independent failure)**
 
 Stop Service A using Ctrl + C
@@ -55,6 +57,7 @@ HTTP 503 Service Unavailable
 Error message indicating Service A is unreachable
 
 Service B remains running and logs the error
+<img width="1920" height="536" alt="Screenshot (870)" src="https://github.com/user-attachments/assets/e3164f75-cd7f-478f-96b0-d1ebdfb51364" />
 
 
 ****What makes this distributed?
