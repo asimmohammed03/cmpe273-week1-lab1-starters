@@ -8,9 +8,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
+<img width="1920" height="239" alt="Screenshot (865)" src="https://github.com/user-attachments/assets/3c91e060-ecc6-4359-93dc-7323b4324d26" />
+
 Service A runs on:http://127.0.0.1:8080
 Test Service A:curl http://127.0.0.1:8080/health
 curl "http://127.0.0.1:8080/echo?msg=hello"
+<img width="1920" height="239" alt="Screenshot (866)" src="https://github.com/user-attachments/assets/de0497d1-958d-44b8-8d65-bded27a4809b" />
+
 
 ## Run Service B (new terminal)
 ```bash
